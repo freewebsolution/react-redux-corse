@@ -21,7 +21,7 @@ export class App extends Component {
             >
               Learn React
         </a>
-            <Children nome={'Mattia'} cognome={'Ticali'} eta={18}></Children>
+            <Children nome={'Mattia'} cognome={'Ticali'} eta={15}></Children>
             <Children nome={'Giorgio'} cognome={'Ticali'} eta ={8}/>
           </header>
         </div>
