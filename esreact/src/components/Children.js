@@ -5,12 +5,24 @@ class Children extends Component {
         this.state = {
             eta: this.props.eta,
             hobby:['Calcio', 'Nuoto', 'tennis']
+            
         }
-        setInterval(() => this.aggiornoEta(), 2000)
+        this.show1 = this.show1.bind(this);
+        
 
+    }
+    time =() => {
+        setInterval(() => this.aggiornoEta(), 2000)
     }
     aggiornoEta =()=> {
         this.setState((state,props) => ({eta:state.eta +1}))
+    }
+    show = (evt)=> {
+        //console.log(evt.pageX);
+        alert('hai cliccato sul componente ' + this.props.nome)
+    }
+    show1(evt) {
+        alert('hai cliccato sul componente ' + this.props.nome)
     }
     render() {
         const { nome, cognome } = this.props;
@@ -19,13 +31,14 @@ class Children extends Component {
         );
         return (
             <div>
-                <h1>Mio figlio {nome} {cognome} di eta: {this.state.eta}</h1>
+                <h1 onClick ={this.show1}>Mio figlio {nome} {cognome} di eta: {this.state.eta}</h1>
                 {/* {this.eta >= 18 ? <h2>Sono maggiorenne</h2> : <h2>Sono minorenne</h2>} */}
                 {this.eta >= 18 && <h2>Sono maggiorenne</h2>}
                 <ul>
                     {/* {hobby.map(item => <li>{item}</li>)} */}
                 </ul>
                 {itemjsx}
+                <button onClick={this.time}>Start</button>
             </div>
         )
     }
