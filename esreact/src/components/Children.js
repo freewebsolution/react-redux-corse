@@ -32,7 +32,7 @@ class Children extends Component {
         }
         return (
             <div>
-                <h1 style={h1Style}>Mio figlio {nome} {cognome} di eta: {this.state.eta}</h1>
+                <i className="fab fa-react" style={{fontSize: '130px'}}></i><h1 style={h1Style}>Mio figlio {nome} {cognome} di eta: {this.state.eta}</h1>
                 <p>{this.state.maggiorenne}</p>
                 {/* { this.state.eta >= 18 ? <h2>Sono maggiorenne</h2> : <h2>Sono minorenne</h2>} */}
                 {/* { this.state.eta >= 18 && <h2>{this.props.nome}</h2>} */}
