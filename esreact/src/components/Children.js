@@ -4,42 +4,41 @@ class Children extends Component {
         super(props);
         this.state = {
             eta: this.props.eta,
-            hobby:['Calcio', 'Nuoto', 'tennis']
-            
-        }
-        this.show1 = this.show1.bind(this);
-        
+            maggiorenne: ''
 
+
+        }
     }
-    time =() => {
+    time = () => {
         setInterval(() => this.aggiornoEta(), 2000)
     }
-    aggiornoEta =()=> {
-        this.setState((state,props) => ({eta:state.eta +1}))
-    }
-    show = (evt)=> {
-        //console.log(evt.pageX);
-        alert('hai cliccato sul componente ' + this.props.nome)
-    }
-    show1(evt) {
-        alert('hai cliccato sul componente ' + this.props.nome)
+    aggiornoEta = () => {
+        this.setState((state, props) => ({ eta: state.eta + 1 }))
+        if (this.state.eta <= 18) {
+            if (this.state.eta === 18) {
+                this.props.sonoMaggiorenne(this.props.nome, this.state.eta)
+                this.setState((state, props) => ({ maggiorenne: this.props.nome }))
+
+
+            }
+        }
     }
     render() {
         const { nome, cognome } = this.props;
-        const itemjsx = (
-             <ul>{/*hobby.map(item => <li>{item}</li>)*/}</ul>
-        );
+        const h1Style = {
+            fontSize: '80px',
+            color: 'red',
+            backgroundColor: 'yellow'
+        }
         return (
             <div>
-                <h1 onClick ={this.show1}>Mio figlio {nome} {cognome} di eta: {this.state.eta}</h1>
-                {/* {this.eta >= 18 ? <h2>Sono maggiorenne</h2> : <h2>Sono minorenne</h2>} */}
-                {this.eta >= 18 && <h2>Sono maggiorenne</h2>}
-                <ul>
-                    {/* {hobby.map(item => <li>{item}</li>)} */}
-                </ul>
-                {itemjsx}
-                <button onClick={this.time}>Start</button>
+                <h1 style={h1Style}>Mio figlio {nome} {cognome} di eta: {this.state.eta}</h1>
+                <p>{this.state.maggiorenne}</p>
+                {/* { this.state.eta >= 18 ? <h2>Sono maggiorenne</h2> : <h2>Sono minorenne</h2>} */}
+                {/* { this.state.eta >= 18 && <h2>{this.props.nome}</h2>} */}
+                <button className='btn btn-primary' onClick={this.time}>Start</button>
             </div>
+
         )
     }
 }
