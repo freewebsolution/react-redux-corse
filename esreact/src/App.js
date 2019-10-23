@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import logo from './logo.svg';
 import './css/App.css';
-import Children from './components/Children';
+import Search from './components/Search';
 
 export class App extends Component {
-  messaggio = (nome, eta,maggiorenne) => {
-    alert(`${maggiorenne} è diventato maggiorenne ha compiuto ${eta} anni`)
+  invioFormGenitore=(cerca) => {
+    alert ('Messaggio dal genitore hai cercato ' + cerca)
   }
   render() {
     return (
@@ -21,8 +21,7 @@ export class App extends Component {
           >
             Learn React
         </a>
-          <Children nome={'Mattia'} cognome={'Ticali'} eta={15} sonoMaggiorenne={this.messaggio}></Children>
-          <Children nome={'Giorgio'} cognome={'Ticali'} eta={8} />
+          <Search nome = 'cerca' onSubmit = {this.invioFormGenitore} />
         </header>
       </div>
 
