@@ -1,57 +1,51 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+
 class Children extends Component {
+
     constructor(props) {
         super(props);
-        this.state = {
-            eta: this.props.eta,
-            maggiorenne: ''
-
-
-        }
+        this.state = { nome: this.props.nome, valore: this.props.valore };
+        console.log('1f) FIGLIO Creo istanza');
     }
-    time = () => {
-        setInterval(() => this.aggiornoEta(), 2000)
-    }
-    aggiornoEta = () => {
-        this.setState((state, props) => ({ eta: state.eta + 1 }))
-        if (this.state.eta <= 18) {
-            if (this.state.eta === 18) {
-                this.props.sonoMaggiorenne(this.props.nome, this.state.eta)
-                this.setState((state, props) => ({ maggiorenne: this.props.nome }))
 
+    // static getDerivedStateFromProps(np, ps) {
+    //     console.log('1fa) FIGLIO check props ');
+    //     return null;
+    // }
 
-            }
-        }
+    componentDidMount() {
+        console.log('3f) FIGLIO DidMount ');
     }
+
+    componentDidUpdate() {
+        console.log('4f) FIGLIO Update ');
+    }
+
+    aggiornoStock = () => {
+        this.setState({ valore: 300 })
+    }
+
     render() {
-        const { nome, cognome } = this.props;
-        const h1Style = {
-            fontSize: '80px',
-            color: 'red',
-            backgroundColor: 'yellow'
-        }
+        console.log('2f) FIGLIO Render');
         return (
-            <div>
-                <i className="fab fa-react" style={{fontSize: '130px'}}></i><h1 style={h1Style}>Mio figlio {nome} {cognome} di eta: {this.state.eta}</h1>
-                <p>{this.state.maggiorenne}</p>
-                {/* { this.state.eta >= 18 ? <h2>Sono maggiorenne</h2> : <h2>Sono minorenne</h2>} */}
-                {/* { this.state.eta >= 18 && <h2>{this.props.nome}</h2>} */}
-                <button className='btn btn-primary' onClick={this.time}>Start</button>
+            <div className="">
+                <div className="row mytube">
+                    <div className="col-md-4">
+                        <h2>{this.props.nome}</h2>
+                        <p>MyTube</p>
+                    </div>
+                    <div className="col-md-4">
+                        <h2>{this.state.risultato}</h2>
+                        <p>Video</p>
+                    </div>
+                    <div className="col-md-4">
+                        <h2 onClick={this.aggiornoLista}><i className="fas fa-sync-alt"></i></h2>
+                    </div>
+                </div>
             </div>
-
         )
     }
 }
+
 export default Children
 
-// import React from 'react'
-// const Children =(props)=>{
-//     return(
-//         <div>
-//             <h1>Mio figlio {props.nome} {props.cognome}</h1>
-//         </div>
-//     )
-// }
-//  export default Children
-// props = {nome:'Mattia'}
-// this.props.nome
