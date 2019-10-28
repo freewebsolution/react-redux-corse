@@ -65,7 +65,7 @@ export class App extends Component {
           <p>
             Applicazione Stock Exchange - <a href='/#' onClick={this.aggiornoStock} > Top guadagno Aggiorno</a>
           </p>
-          {this.state.listaStock.map(el => <Stock dati = {el}/>)}
+          {this.state.listaStock.map(el => <Stock key={el.nome} dati = {el}/>)}
         </header>
       </div>
 
