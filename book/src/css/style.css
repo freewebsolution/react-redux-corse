@@ -141,7 +141,7 @@ img::-moz-selection {
     #mainNav {
         transition: background-color .2s;
         transform: translate3d(0, 0, 0);
-        -webkit-backface-visibility: hidden
+
     }
     #mainNav.is-fixed {
         position: fixed;
@@ -335,8 +335,6 @@ header.masthead .post-heading .meta a {
     display: block;
     margin: 0;
     transition: top .3s ease, opacity .3s ease;
-    vertical-align: middle;
-    vertical-align: baseline;
     opacity: 0
 }
 
