@@ -1,47 +1,33 @@
 import React, { Component } from 'react'
+import Logo from '../../../images/notebook.png'
+import '../../../css/header/header.css'
 class header extends Component {
     render() {
         return (
-            <div>
-                <nav className="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-                    <div className="container">
-                        <a className="navbar-brand" href="index.html">Start Bootstrap</a>
-                        <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                            Menu
-        <i className="fas fa-bars"></i>
-                        </button>
-                        <div className="collapse navbar-collapse" id="navbarResponsive">
-                            <ul className="navbar-nav ml-auto">
-                                <li className="nav-item">
-                                    <a className="nav-link" href="index.html">Home</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" href="about.html">About</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" href="post.html">Sample Post</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" href="contact.html">Contact</a>
-                                </li>
-                            </ul>
+            <div className="headerCss">
+                <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+                    <a className="navbar-brand" href="/">
+                        <img alt='logo' src={Logo} className="logo-image" />
+                    </a>
+                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul className="navbar-nav mr-auto">
+                            <li className="nav-item active">
+                                <a className="nav-link" href="/">Home <span className="sr-only">(current)</span></a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href="/bookList">BookList</a>
+                            </li>
+                        </ul>
+                        <div className="navbar-nav">
+                            <a className="nav-item nav-link" href="/login">Login</a>
+                            <a className="nav-item nav-link" href="#/">Registrazione</a>
                         </div>
                     </div>
                 </nav>
-
-  <header className="masthead">
-                    <div className="overlay"></div>
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-lg-8 col-md-10 mx-auto">
-                                <div className="site-heading">
-                                    <h1>Clean Blog</h1>
-                                    <span className="subheading">A Blog Theme by Start Bootstrap</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </header>
             </div>
         )
     }
