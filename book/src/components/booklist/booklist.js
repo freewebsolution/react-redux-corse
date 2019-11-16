@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
 import '../../css/booklist/bookList.css'
+import Modal from './modal'
+
 class booklist extends Component {
     constructor(props) {
         super(props)
         this.state = {
             searchTerm: 'Ceh',
             books: { items: [] },
-            visible:{display:'block'}
+            visible:{display:'block'},
+            showModal:0
         }
     }
     fetchBooks = () => {
@@ -34,6 +37,12 @@ class booklist extends Component {
     }
     onInputChange = (e) => {
         this.setState({ searchTerm: e.target.value })
+    }
+    hideModal =()=>{
+        this.setState({showModal:0})
+    }
+    getModal= value => {
+        this.setState({showModal:value})
     }
     render() {
         return (
@@ -69,6 +78,7 @@ class booklist extends Component {
                                 const background =`http://books.google.com/books/content?id=${book.id}&printsec=frontcover&img=1&zoom=1&source=gbs_api`;
                                 return (
                                     <figure key={index} className='details-open'>
+                                        <Modal show={this.state.showModal === book.id} onHide={() => this.hideModal(book.id)} title={book.volumeInfo.title} descr={book.volumeInfo.description} pag={book.volumeInfo.pageCount} />
                                         <div className="perspective">
                                             <div className="book">
                                                 <div className="cover">
@@ -78,7 +88,7 @@ class booklist extends Component {
                                             </div>
                                         </div>
                                         <div className="buttons">
-                                            <button style={{padding:'3px', borderRadius:'5px'}} className='btn btn-warning btn-sm'>Dettagli</button>
+                                            <button onClick={() =>this.getModal(book.id)} style={{padding:'3px', borderRadius:'5px'}} className='btn btn-warning btn-sm'>Dettagli</button>
                                             <a href={book.volumeInfo.infoLink}>Preview</a>
                                         </div>
                                         <figcaption>
