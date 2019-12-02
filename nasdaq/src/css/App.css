@@ -53,6 +53,9 @@ body {
   padding: 10px;
   background-color: #464646;
 }
+.cercaButton{
+  padding:10px 13px
+}
 
 .closebtn {
   position: absolute;

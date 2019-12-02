@@ -33,7 +33,7 @@ class Cerca extends Component {
                             placeholder="Cerca..."
                         />
                     </div>
-                    <button type='submit' onFocus={this.onFocus} className='btn btn-warning'>Ok</button>
+                    <button type='submit' onFocus={this.onFocus} className='btn btn-warning cercaButton'><i className="fas fa-search"></i></button>
                 </form>
             </div>
         )

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import logo from './logo.svg';
+import logo from './logo.png';
 import './css/App.css';
 import Stock from './components/stock/Stock';
 import Cerca from './components/Cerca';
@@ -11,7 +11,10 @@ export class App extends Component {
     super(props)
     this.state = { 
       listaelementi: [],
-      listapreferiti: [] 
+      listapreferiti: [],
+      inCaricamento:false,
+      showError:false,
+      msg:null
     }
     console.log(`1g) il costruttore crea la prima istanza Genitore`)
   }
@@ -66,14 +69,16 @@ export class App extends Component {
   }
   getElementi = str => {
     const url = `https://api.worldtradingdata.com/api/v1/stock_search?search_term=${str}&search_by=symbol,name&limit=50&page=1&api_token=NRRb7jYOsECVJFAckq4mik6zPku8TU1TspS0k879V2Ek98vEQZBDnsSH6UgJ`;
+    this.setState({inCaricamento:true,showError:false})
     fetch(url)
       .then(r => r.json())
       .then(r =>{
           const {data} = r;
-          this.setState({listaelementi:data})
+        this.setState({ listaelementi: data, inCaricamento: false})
           console.log('Recupero dati ' + JSON.stringify(r))
       })
       .catch((error) => {
+        this.setState({ inCaricamento: false,showError:true,msg:error.message})
         console.log('Fetch failed', error)
       })
         
@@ -88,11 +93,13 @@ export class App extends Component {
             Applicazione Stock Exchange
           </p>
           <Cerca onInputSearch={this.cercaElementi}/>
-          <div className="container">
+          <div className="container" style={{ marginTop: '20px' }}>
             <section className="listanomi">
               <div className="row">              
                   <div className="col">
-                    {this.state.listaelementi.map(el => <NomeStock key={el.nome} dati={el} />)}
+                    {this.state.inCaricamento &&<p className='text-center'>Caricamento in corso ...</p>}
+                    {this.state.showError && <p className='text-center'>{this.state.msg}</p>}
+                    {this.state.listaelementi.map(el => <NomeStock key={el.symbol} dati={el} />)}
                   </div>               
               </div>
             </section>
