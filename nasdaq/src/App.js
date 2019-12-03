@@ -14,7 +14,9 @@ export class App extends Component {
       listapreferiti: [],
       inCaricamento:false,
       showError:false,
-      msg:null
+      msg:null,
+      showAvviso:false,
+      msgAvviso:''
     }
     console.log(`1g) il costruttore crea la prima istanza Genitore`)
   }
@@ -69,11 +71,17 @@ export class App extends Component {
   }
   getElementi = str => {
     const url = `https://api.worldtradingdata.com/api/v1/stock_search?search_term=${str}&search_by=symbol,name&limit=50&page=1&api_token=NRRb7jYOsECVJFAckq4mik6zPku8TU1TspS0k879V2Ek98vEQZBDnsSH6UgJ`;
-    this.setState({inCaricamento:true,showError:false})
+    this.setState({ inCaricamento: true, showError: false, showAvviso: false})
     fetch(url)
       .then(r => r.json())
       .then(r =>{
           const {data} = r;
+        console.log(`Lunghezza oggetto ${data.length}`)
+        if (data.length < 1) {
+          this.setState({ showAvviso: true, msgAvviso: 'Spiacente non ho trovato elementi, Riprova!',listaelementi:[] })
+        } else {
+          this.setState({ showAvviso: false, msgAvviso: '' })
+        }
         this.setState({ listaelementi: data, inCaricamento: false})
           console.log('Recupero dati ' + JSON.stringify(r))
       })
@@ -82,6 +90,10 @@ export class App extends Component {
         console.log('Fetch failed', error)
       })
         
+  }
+  addPreferiti= ids => {
+    // alert(`Hai cliccato sull'elemnto ${ids}`)
+    this.setState({ listapreferiti:[...this.state.listapreferiti, this.state.listaelementi[ids]]})
   }
   render() {
     console.log(`2g) Genitore Render`)
@@ -99,15 +111,14 @@ export class App extends Component {
                   <div className="col">
                     {this.state.inCaricamento &&<p className='text-center'>Caricamento in corso ...</p>}
                     {this.state.showError && <p className='text-center'>{this.state.msg}</p>}
-                    {this.state.listaelementi.map(el => <NomeStock key={el.symbol} dati={el} />)}
+                    {this.state.showAvviso && <p className="text-center">{this.state.msgAvviso}</p>}
+                  {this.state.listaelementi.map((el, index) => <NomeStock key={el.symbol} dati={el} ids={index} onAddPreferiti={this.addPreferiti} />)}
                   </div>               
               </div>
             </section>
             <section className="listapreferiti">
               <div className="row">               
-                  <div className="col">
-                    {this.state.listapreferiti.map(el => <Stock key={el.symbol} dati={el} />)}
-                  </div>              
+                    {this.state.listapreferiti.map(el => <Stock key={el.symbol} dati={el} />)}             
               </div>
             </section>
           </div>
