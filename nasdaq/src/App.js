@@ -95,6 +95,13 @@ export class App extends Component {
     // alert(`Hai cliccato sull'elemnto ${ids}`)
     this.setState({ listapreferiti:[...this.state.listapreferiti, this.state.listaelementi[ids]]})
   }
+  eliminoStock =(symbol)=> {
+    const preferiti = this.state.listapreferiti.filter(el =>{
+      if(el.symbol !== symbol) return true;
+      return false;
+    })
+this.setState({listapreferiti:preferiti})
+  }
   render() {
     console.log(`2g) Genitore Render`)
     return (
@@ -105,8 +112,8 @@ export class App extends Component {
             Applicazione Stock Exchange
           </p>
           <Cerca onInputSearch={this.cercaElementi}/>
-          <div className="container" style={{ marginTop: '20px' }}>
-            <section className="listanomi">
+          <div className="container-fluid" style={{ marginTop: '20px' }}>
+            <section className="col-md-12 listanomi">
               <div className="row">              
                   <div className="col">
                     {this.state.inCaricamento &&<p className='text-center'>Caricamento in corso ...</p>}
@@ -116,10 +123,8 @@ export class App extends Component {
                   </div>               
               </div>
             </section>
-            <section className="listapreferiti">
-              <div className="row">               
-                    {this.state.listapreferiti.map(el => <Stock key={el.symbol} dati={el} />)}             
-              </div>
+            <section className="listapreferiti row">               
+              {this.state.listapreferiti.map(el => <Stock key={el.symbol} dati={el} eliminoStock={this.eliminoStock} symbol={el.symbol} />)}             
             </section>
           </div>
         </header>
