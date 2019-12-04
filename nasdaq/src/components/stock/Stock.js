@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import '../../css/stock/stock.css'
+import Grafico from '../Grafico';
+
 class Stock extends Component {
 
     constructor(props) {
@@ -69,6 +71,16 @@ class Stock extends Component {
     }
 
     render() {
+        const data = [
+            { datetime: '09:00:00', price: 4000 },
+            { datetime: '09:01:00', price: 3000 },
+            { datetime: '09:02:00', price: 2000 },
+            { datetime: '09:03:00', price: 2548 },
+            { datetime: '09:04:00', price: 3451 },
+            { datetime: '09:05:00', price: 2547 },
+            { datetime: '09:06:00', price: 1254 }
+
+        ];
         console.log('2f) FIGLIO Render');
         const diff = (this.state.price - this.props.dati.price).toFixed(2)
         const percentuale = (diff / this.props.dati.price) * 100;
@@ -95,6 +107,13 @@ class Stock extends Component {
                                 <input type="checkbox" checked={this.state.ckrealtime} onChange={this.startRealtime}/>
                                 <span className="slider round"></span>
                             </label>
+                        </div>
+                    </div>
+                </div>
+                <div className="bodygrafico">
+                    <div className="row">
+                        <div className="col-sm">
+                            <Grafico data={data}/>
                         </div>
                     </div>
                 </div>
