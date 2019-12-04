@@ -5,13 +5,13 @@ class Stock extends Component {
     constructor(props) {
         super(props);
         const { symbol, price } = this.props.dati
-        this.state = { symbol, price, datatrade: 'xxxx-xx-xx 16:00:00' };
+        this.state = { symbol, price, datatrade: 'xxxx-xx-xx 16:00:00', ckrealtime:'' };
         console.log('1f) FIGLIO Creo istanza');
     }
 
     static getDerivedStateFromProps(np, ps) {
         if (np.dati.symbol !== ps.symbol) {
-            return { nome: np.dati.ymbol, price: np.dati.price }
+            return { nome: np.dati.symbol, price: np.dati.price }
         }
         return null;
     }
@@ -22,6 +22,7 @@ class Stock extends Component {
 
     componentDidUpdate() {
         console.log('4f) FIGLIO Update ');
+        
     }
 
     // aggiornoStock = () => {
@@ -31,17 +32,35 @@ class Stock extends Component {
     eliminoStock = () => {
         this.props.eliminoStock(this.props.dati.symbol)
     }
+    startCheckElemento = () => {
+        this.timer = setInterval(() => this.getNewElementi(), 60000)
+    }
+    stopCheckElemento = () => {
+        clearInterval(this.timer);
+    }
+    // componentWillMount =() => {
+    //     clearInterval(this.timer);
+    // }
+    startRealtime =()=> {
+        const ckrt = this.state.ckrealtime === 'checked' ? '' : 'checked';
+        if(ckrt === 'checked'){
+           this.startCheckElemento();
+        }else {
+            this.stopCheckElemento();
+        }
+        this.setState({ ckrealtime: ckrt }) 
+    }
     getNewElementi = () => {
-        const url = `https://intraday.worldtradingdata.com/api/v1/intraday?symbol=${this.props.dati.symbol}&range=1&interval=1&api_token=RLuNr8Cldk0cVGxweMBLg1rOcYPM3rhIotttTWFQY7hbsw7xsSJmsHxRCYmW`;
+        const url = `https://intraday.worldtradingdata.com/api/v1/intraday?symbol=${this.props.dati.symbol}&range=1&interval=1&api_token=nkJO34lXP5DdL4VvGCwQlPhpFGohUvQFnZ2nQXYvOUqMPL9XWEWRolfZSUy2`;
         fetch(url)
             .then(r => r.json())
             .then(r => {
                 const { intraday } = r;
-                const timeprice  = Object.entries(intraday)[0];
+                const timeprice = Object.entries(intraday)[0];
                 const datatrade = timeprice[0];
                 const price = timeprice[1].open;
-                this.setState({price,datatrade })
-                
+                this.setState({ price, datatrade })
+
             })
             .catch((error) => {
                 console.log('Fetch failed', error)
@@ -68,10 +87,14 @@ class Stock extends Component {
                         </div>
                         <div className="col-sm">
                             <h2>{diff}</h2>
-                            <p style={{color:'green'}}>{percentuale.toFixed(1)} %</p>
+                            <p style={{ color: 'green' }}>{percentuale.toFixed(1)} %</p>
                         </div>
                         <div className="col-sm">
-                            <h2 onClick={this.getNewElementi}><i className="fas fa-sync-alt fa-2x"></i></h2>
+                            <p><i className="fas fa-chart-line fa-2x"></i></p>
+                            <label className="bs-switch">
+                                <input type="checkbox" checked={this.state.ckrealtime} onChange={this.startRealtime}/>
+                                <span className="slider round"></span>
+                            </label>
                         </div>
                     </div>
                 </div>
