@@ -7,7 +7,7 @@ class Stock extends Component {
     constructor(props) {
         super(props);
         const { symbol, price } = this.props.dati
-        this.state = { symbol, price, datatrade: 'xxxx-xx-xx 16:00:00', ckrealtime:'' };
+        this.state = { symbol, price, datatrade: 'xxxx-xx-xx 16:00:00', ckrealtime:'',datigrafico:[{datetime:'16:00:00',price:price}],showgrafico:false };
         console.log('1f) FIGLIO Creo istanza');
     }
 
@@ -35,7 +35,7 @@ class Stock extends Component {
         this.props.eliminoStock(this.props.dati.symbol)
     }
     startCheckElemento = () => {
-        this.timer = setInterval(() => this.getNewElementi(), 60000)
+        this.timer = setInterval(() => this.getNewElementi(), 2000)
     }
     stopCheckElemento = () => {
         clearInterval(this.timer);
@@ -61,7 +61,8 @@ class Stock extends Component {
                 const timeprice = Object.entries(intraday)[0];
                 const datatrade = timeprice[0];
                 const price = timeprice[1].open;
-                this.setState({ price, datatrade })
+                const datigrafico = [...this.state.datigrafico,{datetime:datatrade.substring(11),price:price}]
+                this.setState({ price, datatrade,datigrafico })
 
             })
             .catch((error) => {
@@ -69,18 +70,11 @@ class Stock extends Component {
             })
 
     }
+    showGrafico =()=> {
+        this.setState({showgrafico:!this.state.showgrafico})
+    }
 
     render() {
-        const data = [
-            { datetime: '09:00:00', price: 4000 },
-            { datetime: '09:01:00', price: 3000 },
-            { datetime: '09:02:00', price: 2000 },
-            { datetime: '09:03:00', price: 2548 },
-            { datetime: '09:04:00', price: 3451 },
-            { datetime: '09:05:00', price: 2547 },
-            { datetime: '09:06:00', price: 1254 }
-
-        ];
         console.log('2f) FIGLIO Render');
         const diff = (this.state.price - this.props.dati.price).toFixed(2)
         const percentuale = (diff / this.props.dati.price) * 100;
@@ -102,7 +96,7 @@ class Stock extends Component {
                             <p style={{ color: 'green' }}>{percentuale.toFixed(1)} %</p>
                         </div>
                         <div className="col-sm">
-                            <p><i className="fas fa-chart-line fa-2x"></i></p>
+                            <p><i className="fas fa-chart-line fa-2x" onClick={this.showGrafico}></i></p>
                             <label className="bs-switch">
                                 <input type="checkbox" checked={this.state.ckrealtime} onChange={this.startRealtime}/>
                                 <span className="slider round"></span>
@@ -113,7 +107,7 @@ class Stock extends Component {
                 <div className="bodygrafico">
                     <div className="row">
                         <div className="col-sm">
-                            <Grafico data={data}/>
+                            {this.state.showgrafico &&<Grafico data={this.state.datigrafico} chiusura={this.props.dati.price}/>}
                         </div>
                     </div>
                 </div>

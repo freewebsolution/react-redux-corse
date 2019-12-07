@@ -7,11 +7,12 @@ import { LineChart, Line, CartesianGrid, XAxis, YAxis,Legend,Tooltip,ReferenceLi
             <div>
                 <LineChart width={600} height={400} data={this.props.data} margin={{top:45,left:20, rigth:30,bottom:5}}>
                     <XAxis style={{fontSize:'14px',color:'green'}} dataKey="datetime" />
-                    <YAxis style={{ fontSize: '14px', color: 'green' }} />
+                    <YAxis style={{ fontSize: '14px' }}  domain={[dataMin => ((dataMin - dataMin * 10 / 100).toFixed(2)), dataMax => ((dataMax + dataMax * 10 / 100).toFixed(2))]}/>
                     <CartesianGrid stroke="#eee" strokeDasharray="3 3" />
                     <Tooltip/>
                     <Legend/>
-                    <Line type="monotone" dataKey="price" stroke="#82ca9d" />
+                    <ReferenceLine y={this.props.chiusura} label='' stroke='red'/>
+                    <Line type="monotone" dataKey="price" stroke="#82ca9d" activeDot={{r:8}} />
                 </LineChart> 
             </div>
         )
