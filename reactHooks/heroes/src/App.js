@@ -15,13 +15,23 @@ const App = () => {
   const [heroes, setHeroes] = useState([])
   const [newHero, setNewHero] = useState('')
   const [showAll, setShowAll] = useState(true)
-
+  const toggleImportanceOf = id => {
+    const url = `http://localhost:3001/heroes/${id} `
+    const hero = heroes.find(n => n.id === id)
+    const changedHero = { ...hero, important: !hero.important }
+    axios
+      .put(url,changedHero)
+      .then(response => {
+        setHeroes(heroes.map(hero => hero.id !== id ? hero: response.data))
+      })
+  }
   // eslint-disable-next-line no-unused-vars
   const heroesToShow = showAll ? heroes : heroes.filter(hero => hero.important === true)
-  const rows = () => heroes.map(hero =>
+  const rows = () => heroesToShow.map(hero =>
     <Hero
       key={hero.id}
       hero={hero}
+      toggleImportance = {() => toggleImportanceOf(hero.id)}
     >
     </Hero>)
 
