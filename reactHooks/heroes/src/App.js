@@ -1,28 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import Hero from './components/Hero';
 import axios from 'axios'
+import heroService from './service/heroService';
+
 const App = () => {
 
   useEffect(() => {
     console.log('effect')
-    axios
-      .get('http://localhost:3001/heroes')
-      .then(response => {
-        console.log('promise fulfilled')
-        setHeroes(response.data)
+    heroService.getAll()
+      .then(initialHeroes => {
+        setHeroes(initialHeroes)
       })
   }, [])
   const [heroes, setHeroes] = useState([])
   const [newHero, setNewHero] = useState('')
   const [showAll, setShowAll] = useState(true)
+
   const toggleImportanceOf = id => {
     const url = `http://localhost:3001/heroes/${id} `
     const hero = heroes.find(n => n.id === id)
     const changedHero = { ...hero, important: !hero.important }
-    axios
-      .put(url,changedHero)
-      .then(response => {
-        setHeroes(heroes.map(hero => hero.id !== id ? hero: response.data))
+    heroService.update(id, changedHero)
+      .then(returnedHero => {
+        setHeroes(heroes.map(hero => hero.id !== id ? hero : returnedHero))
       })
   }
   // eslint-disable-next-line no-unused-vars
@@ -31,7 +31,7 @@ const App = () => {
     <Hero
       key={hero.id}
       hero={hero}
-      toggleImportance = {() => toggleImportanceOf(hero.id)}
+      toggleImportance={() => toggleImportanceOf(hero.id)}
     >
     </Hero>)
 
@@ -43,10 +43,9 @@ const App = () => {
       important: Math.random() > 0.5,
       id: heroes.lenght + 1
     }
-    axios
-      .post('http://localhost:3001/heroes', heroObject)
-      .then(response => {
-        setHeroes(heroes.concat(heroObject))
+    heroService.create(heroObject)
+      .then(returnedHero => {
+        setHeroes(heroes.concat(returnedHero))
         setNewHero('')
       })
 
