@@ -24,6 +24,9 @@ const App = () => {
   ]
   const [Eroi,setEroi] = useState(heroes)
   const [newHero, setNewHero] = useState('')
+  const [showAll, setShowAll] = useState(true)
+
+  const heroesToShow = showAll ? heroes : heroes.filter(hero => hero.important === true)
   const rows = () => Eroi.map(hero =>
     <Hero
      key={hero.id}
@@ -47,8 +50,12 @@ const App = () => {
       setNewHero(e.target.value)
     }
   return (
+
     <div className="App">
       <h1>Heroes</h1>
+      <button onClick={() => setShowAll(!showAll)}>
+        show{showAll ? 'important' : 'all'}
+      </button>
       <ul>
         {rows()}
       </ul>
