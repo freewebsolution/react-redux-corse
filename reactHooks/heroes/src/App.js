@@ -1,34 +1,24 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import Hero from './components/Hero';
-
+import axios from 'axios'
 const App = () => {
-  const heroes = [
-    {
-      id: 1,
-      name: 'Hulk',
-      date: '2019-12-30t17:30:31.098z',
-      important: true
-    },
-    {
-      id: 2,
-      name: 'Spiderman',
-      date: '2019-12-30t17:30:31.098z',
-      important: true
-    },
-    {
-      id: 3,
-      name: 'Superman',
-      date: '2019-12-30t17:30:31.098z',
-      important: true
-    }
-  ]
-  const [Eroi,setEroi] = useState(heroes)
+
+  useEffect(()=> {
+    console.log('effect')
+    axios
+    .get('http://localhost:3001/heroes')
+    .then(response => {
+      console.log('promise fulfilled')
+      setHeroes(response.data)
+    })
+  } ,[])
+  const [heroes,setHeroes] = useState([])
   const [newHero, setNewHero] = useState('')
   const [showAll, setShowAll] = useState(true)
 
   // eslint-disable-next-line no-unused-vars
   const heroesToShow = showAll ? heroes : heroes.filter(hero => hero.important === true)
-  const rows = () => Eroi.map(hero =>
+  const rows = () => heroes.map(hero =>
     <Hero
      key={hero.id}
      hero={hero}
@@ -43,7 +33,7 @@ const App = () => {
         important: Math.random() > 0.5,
         id: heroes.lenght + 1 
       }
-      setEroi(heroes.concat(heroObject))
+      setHeroes(heroes.concat(heroObject))
       setNewHero('')
     }
     const handleHeroChange = e => {
