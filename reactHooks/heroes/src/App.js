@@ -26,6 +26,7 @@ const App = () => {
   const [newHero, setNewHero] = useState('')
   const [showAll, setShowAll] = useState(true)
 
+  // eslint-disable-next-line no-unused-vars
   const heroesToShow = showAll ? heroes : heroes.filter(hero => hero.important === true)
   const rows = () => Eroi.map(hero =>
     <Hero
