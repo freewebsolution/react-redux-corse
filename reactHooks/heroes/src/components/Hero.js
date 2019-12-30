@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Hero = ({ hero, toggleImportance }) => {
+const Hero = ({ hero, toggleImportance,deleteHero }) => {
     const label = hero.important ? 'Remove important' : 'Add important'
     return (
         <li>
@@ -8,6 +8,7 @@ const Hero = ({ hero, toggleImportance }) => {
             <button onClick={toggleImportance}>
                 {label}
             </button>
+            <button style={{marginLeft:'10px'}} onClick={deleteHero}>Delete</button>
         </li>
     );
 }

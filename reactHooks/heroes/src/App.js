@@ -24,6 +24,12 @@ const App = () => {
       .then(returnedHero => {
         setHeroes(heroes.map(hero => hero.id !== id ? hero : returnedHero))
       })
+      .catch(error => {
+        alert(
+          ` l'eroe ${hero.name} non esiste`
+        )
+        setHeroes(heroes.filter( h => h.id !== id))
+      })
   }
   // eslint-disable-next-line no-unused-vars
   const heroesToShow = showAll ? heroes : heroes.filter(hero => hero.important === true)
@@ -32,6 +38,7 @@ const App = () => {
       key={hero.id}
       hero={hero}
       toggleImportance={() => toggleImportanceOf(hero.id)}
+      deleteHero={()=> deleteHero(hero.id,hero.name)}
     >
     </Hero>)
 
@@ -53,6 +60,18 @@ const App = () => {
   const handleHeroChange = e => {
     console.log(e.target.value)
     setNewHero(e.target.value)
+  }
+
+  const deleteHero =(id, name) => {
+    const r = window.confirm(` Sei sicuro di voler eliminare l'eroe ${name} ?`)
+    if( r === false) {
+      return
+    }else {
+      heroes.filter(h => h.id === id)
+      heroService
+      .deleteHero(id)
+      window.location.reload()
+    }
   }
   return (
 
