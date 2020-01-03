@@ -17,12 +17,17 @@ class App extends Component {
     super(props);
     this.state = {
       todos: []
-    }
+    };
+    this.todoInput = React.createRef()
   }
   componentDidMount() {
     const store = createStore(storeReducer, {todos:[...todos]})
     console.log(store.getState())
     this.setState({todos: [...store.getState().todos]})
+  }
+  addTodo = () => {
+    const todo = this.todoInput.current.value;
+    alert(todo)
   }
 
   render() {
@@ -31,6 +36,8 @@ class App extends Component {
         <header className="App-header">
           <h1>Todo List</h1>
         </header>
+        <button onClick={this.addTodo}>Add</button>
+        <input ref={this.todoInput}/>
         <ul>
           {
             this.state.todos.map((todo, i) => <li key={i}>{todo}</li>)
