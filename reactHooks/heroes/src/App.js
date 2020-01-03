@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Hero from './components/Hero';
-import axios from 'axios'
 import heroService from './service/heroService';
 
 const App = () => {
@@ -28,7 +27,7 @@ const App = () => {
         alert(
           ` l'eroe ${hero.name} non esiste`
         )
-        setHeroes(heroes.filter( h => h.id !== id))
+        setHeroes(heroes.filter(h => h.id !== id))
       })
   }
   // eslint-disable-next-line no-unused-vars
@@ -38,7 +37,7 @@ const App = () => {
       key={hero.id}
       hero={hero}
       toggleImportance={() => toggleImportanceOf(hero.id)}
-      deleteHero={()=> deleteHero(hero.id,hero.name)}
+      deleteHero={() => deleteHero(hero.id, hero.name)}
     >
     </Hero>)
 
@@ -62,35 +61,43 @@ const App = () => {
     setNewHero(e.target.value)
   }
 
-  const deleteHero =(id, name) => {
+  const deleteHero = (id, name) => {
     const r = window.confirm(` Sei sicuro di voler eliminare l'eroe ${name} ?`)
-    if( r === false) {
+    if (r === false) {
       return
-    }else {
+    } else {
       heroes.filter(h => h.id === id)
       heroService
-      .deleteHero(id)
+        .deleteHero(id)
       window.location.reload()
     }
   }
   return (
+    <div className="container">
+      <div className="row">
+        <h1>Heroes</h1>
+        <button className='waves-effect waves-light btn-small' onClick={() => setShowAll(!showAll)}>
+          show{showAll ? 'important' : 'all'}
+        </button>
+        <ul className='collection'>
+          {rows()}
+        </ul>
+        <form onSubmit={addHero} className='col s12'>
+          <div className="input-field col s6">
+            <input
+              type="text"
+              value={newHero}
+              onChange={handleHeroChange}
+              required
+            />
+            <label >Inserisci il nome ...</label>
+          </div>
 
-    <div className="App">
-      <h1>Heroes</h1>
-      <button onClick={() => setShowAll(!showAll)}>
-        show{showAll ? 'important' : 'all'}
-      </button>
-      <ul>
-        {rows()}
-      </ul>
-      <form onSubmit={addHero}>
-        <input
-          type="text"
-          value={newHero}
-          onChange={handleHeroChange}
-        />
-        <button type='submit'>Add</button>
-      </form>
+          <button className='btn-floating  waves-effect waves-light green' type='submit'><i className="material-icons">add</i></button>
+
+        </form>
+      </div>
+
     </div>
   );
 }
