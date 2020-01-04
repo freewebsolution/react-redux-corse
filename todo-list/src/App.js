@@ -9,10 +9,22 @@ let todos = [
   'andare in banca'
 ]
 function storeReducer(state = {}, action) {
-  return { ...state }
+  switch (action.type) {
+    case 'ADD_TODO':
+      return {
+        todos: [
+          action.payload,
+          ...state.todos
+         
+        ]
+      }
+    default:
+      return { ...state }
+  }
+
 }
 const store = createStore(storeReducer, { todos: [...todos] })
-console.log(store.getState())
+
 
 class App extends Component {
   constructor(props) {
@@ -23,13 +35,18 @@ class App extends Component {
     this.todoInput = React.createRef()
   }
   componentDidMount() {
-    const store = createStore(storeReducer, { todos: [...todos] });
-    console.log(store.getState())
     this.setState({ todos: [...store.getState().todos] })
+    store.subscribe(() => {
+      console.log(store.getState())
+      this.setState({ todos: [...store.getState().todos] })
+    })
   }
   addTodo = () => {
     const todo = this.todoInput.current.value;
-    alert(todo)
+    store.dispatch({
+      type: 'ADD_TODO',
+      payload: todo
+    })
   }
 
   render() {
